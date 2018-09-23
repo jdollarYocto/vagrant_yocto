@@ -1,0 +1,4 @@
+---
+- git:
+    repo: 'https://github.com/raspberrypi/tools.git'
+    dest: /home/vagrant/raspberry-tools

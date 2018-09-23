@@ -1,0 +1,5 @@
+---
+poky_install: /home/vagrant/poky
+openembed_install: /home/vagrant/meta-openembedded
+raspberrypi_layer_install: /home/vagrant/meta-raspberrypi
+raspberry_pi_board: raspberrypi0-wifi

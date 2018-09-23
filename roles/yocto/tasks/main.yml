@@ -1,0 +1,52 @@
+---
+- name: "Install required yocto packages"
+  become: true
+  apt: name={{item}}
+  state: present
+  with_items:
+    - wget
+    - git-core
+    - diffstat
+    - unzip
+    - texinfo
+    - gcc-multilib 
+    - build-essential
+    - chrpath
+    - socat
+    - cpio
+    - python
+    - python3
+    - python3-pip
+    - python3-pexpect
+    - xz-utils
+    - debianutils
+    - iputils-ping
+    - libsdl1.2-dev
+    - xterm
+
+- name: "Clone poky"
+  git:
+    repo: git://git.yoctoproject.org/poky
+    dest: "{{ poky_install }}"
+
+- name: "Clone open embedded layer"
+  git:
+    repo: git://git.openembedded.org/meta-openembedded
+    dest: "{{ openembed_install }}"
+
+- name: "Clone raspberry pi layer"
+  git:
+    repo: https://github.com/agherzan/meta-raspberrypi.git
+    dest: "{{ raspberrypi_layer_install }}"
+
+- name: "running the build environment init"
+  shell: "source oe-init-build-env rpi-build"
+  args:
+    chdir: "{{ poky_install }}"
+    executable: /bin/bash
+
+- name: "Add bitbake to path"
+  become: yes
+  copy:
+    dest: /etc/profile.d/bitbake-path.sh
+    content: 'PATH=$PATH:{{ poky_install }}/bitbake/bin'
